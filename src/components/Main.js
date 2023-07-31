@@ -1,17 +1,26 @@
 import React from 'react';
 import '../index.css';
 import avatar from '../images/profile-avatar-kusto.jpg';
+import avatar_editor from '../images/profile-edit-image.svg';
 
+function handleEditAvatarClick() {
+    document.querySelector('.popup_type_avatar').classList.add('popup_opened');
+}
+
+function handleEditProfileClick() {
+    document.querySelector('.popup_type_profile').classList.add('popup_opened');
+}
+
+function handleAddPlaceClick() {
+    document.querySelector('.popup_type_add-card').classList.add('popup_opened');
+}
 function Main() {
     return (
         <main className="content">
             <section className="profile">
-                <div className="profile__avatar-container">
+                <div className="profile__avatar-container" onClick={handleEditAvatarClick}>
                     <img className="profile__avatar" src={avatar} alt="Фото профиля" />
-                    <img
-                        className="profile__avatar-editor"
-                        src="<%=require('./images/profile-edit-image.svg')%>"
-                    />
+                    <img className="profile__avatar-editor" src={avatar_editor} />
                 </div>
                 <div className="profile__info">
                     <h1 className="profile__name">Жак-Ив Кусто</h1>
@@ -20,9 +29,14 @@ function Main() {
                         className="profile__edit-button"
                         type="button"
                         aria-label="Редактировать"
+                        onClick={handleEditProfileClick}
                     ></button>
                 </div>
-                <button className="profile__add-button" type="button"></button>
+                <button
+                    className="profile__add-button"
+                    type="button"
+                    onClick={handleAddPlaceClick}
+                ></button>
             </section>
             <ul className="places"></ul>
             <template id="placeTemplate">
@@ -41,4 +55,5 @@ function Main() {
         </main>
     );
 }
+
 export default Main;

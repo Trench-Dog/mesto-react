@@ -3,12 +3,13 @@ import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 function App() {
     return (
-        <body className="page">
-            <Header className="header" />
-            <Main className="content" />
+        <div className="page">
+            <Header />
+            <Main />
             <div className="popup popup_type_profile">
                 <div className="popup__container popup__container_type_profile">
                     <form className="popup__form" name="popup-profile-form">
@@ -38,7 +39,7 @@ function App() {
                         </button>
                     </form>
                     <button
-                        className="popup__close-button popup__close-button_type_close-profile"
+                        className="popup__close-button popup__close-button_type_profile"
                         type="button"
                     ></button>
                 </div>
@@ -73,21 +74,12 @@ function App() {
                         </button>
                     </form>
                     <button
-                        className="popup__close-button popup__close-button_type_close-add"
+                        className="popup__close-button popup__close-button_type_add-card"
                         type="button"
                     ></button>
                 </div>
             </div>
-            <div className="popup popup_type_image">
-                <div className="popup__container popup__container_type_image">
-                    <button
-                        className="popup__close-button popup__close-button_type_close-image"
-                        type="button"
-                    ></button>
-                    <img className="popup__image" />
-                    <h2 className="popup__place-name"></h2>
-                </div>
-            </div>
+            <ImagePopup className="popup popup_type_image" />
             <div className="popup popup_type_confirm">
                 <div className="popup__container popup__container_type_confirm">
                     <form className="popup__form" name="popup-confirm-form">
@@ -127,9 +119,12 @@ function App() {
                     ></button>
                 </div>
             </div>
-            <Footer className="footer" />
-        </body>
+            {/* <PopupWithForm name='profile' />
+            <PopupWithForm name='add-card' />
+            <PopupWithForm name='confirm' />
+            <PopupWithForm name='avatar' /> */}
+            <Footer />
+        </div>
     );
 }
-
 export default App;

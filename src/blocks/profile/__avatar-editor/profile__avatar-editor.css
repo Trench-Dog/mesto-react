@@ -4,5 +4,8 @@
     position: relative;
     left: 38%;
     bottom: 64%;
-    z-index: -1;
+    visibility: hidden;
+}
+.profile__avatar:hover + .profile__avatar-editor {
+    visibility: visible;
 }

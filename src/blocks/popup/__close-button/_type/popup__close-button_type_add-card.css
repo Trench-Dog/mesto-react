@@ -1,4 +1,4 @@
-.popup__close-button_type_close-add {
+.popup__close-button_type_add-card {
     width: 32px;
     height: 32px;
     position: relative;
@@ -10,7 +10,7 @@
     cursor: pointer;
 }
 @media screen and (max-width: 600px) {
-    .popup__close-button_type_close-add {
+    .popup__close-button_type_add-card {
         width: 20px;
         height: 20px;
         left: 262px;
