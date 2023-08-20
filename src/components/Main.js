@@ -3,22 +3,11 @@ import '../index.css';
 import avatar from '../images/profile-avatar-kusto.jpg';
 import avatar_editor from '../images/profile-edit-image.svg';
 
-function handleEditAvatarClick() {
-    document.querySelector('.popup_type_avatar').classList.add('popup_opened');
-}
-
-function handleEditProfileClick() {
-    document.querySelector('.popup_type_profile').classList.add('popup_opened');
-}
-
-function handleAddPlaceClick() {
-    document.querySelector('.popup_type_add-card').classList.add('popup_opened');
-}
-function Main() {
+function Main(props) {
     return (
         <main className="content">
             <section className="profile">
-                <div className="profile__avatar-container" onClick={handleEditAvatarClick}>
+                <div className="profile__avatar-container" onClick={props.onEditAvatar}>
                     <img className="profile__avatar" src={avatar} alt="Фото профиля" />
                     <img className="profile__avatar-editor" src={avatar_editor} />
                 </div>
@@ -29,13 +18,13 @@ function Main() {
                         className="profile__edit-button"
                         type="button"
                         aria-label="Редактировать"
-                        onClick={handleEditProfileClick}
+                        onClick={props.onEditProfile}
                     ></button>
                 </div>
                 <button
                     className="profile__add-button"
                     type="button"
-                    onClick={handleAddPlaceClick}
+                    onClick={props.onAddPlace}
                 ></button>
             </section>
             <ul className="places"></ul>

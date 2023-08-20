@@ -3,12 +3,13 @@ import '../index.css';
 
 function PopupWithForm(props) {
     return (
-        <div className={`popup popup_type_${props.name}`}>
+        <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>
             <div className={`popup__container popup__container_type_${props.name}`}>
-                <form className="popup__form" name="popup-confirm-form">
-                    <h2 className="popup__request">Вы уверены?</h2>
+                <form className="popup__form" name={`popup-${props.name}-form`}>
+                    <h2 className="popup__request">{props.title}</h2>
+                    {props.children}
                     <button className="popup__save-button" type="button">
-                        Да
+                        {props.text}
                     </button>
                 </form>
                 <button

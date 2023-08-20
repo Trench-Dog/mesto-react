@@ -5,124 +5,111 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+
+let isEditProfilePopupOpen = false;
+let isAddPlacePopupOpen = false;
+let isEditAvatarPopupOpen = false;
+console.log(isEditAvatarPopupOpen);
+console.log(isEditProfilePopupOpen);
+console.log(isAddPlacePopupOpen);
+
+function handleEditProfileClick() {
+    isEditProfilePopupOpen = true;
+    console.log(isEditProfilePopupOpen);
+    return isEditProfilePopupOpen;
+    // document.querySelector('.popup_type_profile').classList.add('popup_opened');
+}
+
+function handleEditAvatarClick() {
+    isEditAvatarPopupOpen = true;
+    console.log(isEditAvatarPopupOpen);
+    // document.querySelector('.popup_type_avatar').classList.add('popup_opened');
+}
+
+function handleAddPlaceClick() {
+    isAddPlacePopupOpen = true;
+    console.log(isAddPlacePopupOpen);
+    // document.querySelector('.popup_type_add-card').classList.add('popup_opened');
+}
+
 function App() {
     return (
         <div className="page">
             <Header />
-            <Main />
-            <div className="popup popup_type_profile">
-                <div className="popup__container popup__container_type_profile">
-                    <form className="popup__form" name="popup-profile-form">
-                        <h2 className="popup__heading">Редактировать профиль</h2>
-                        <input
-                            type="text"
-                            className="popup__data popup__data_type_name"
-                            name="name"
-                            placeholder="Имя"
-                            required
-                            minlength="2"
-                            maxlength="40"
-                        />
-                        <span className="popup__reminder popup__reminder_type_name"></span>
-                        <input
-                            type="text"
-                            className="popup__data popup__data_type_description"
-                            name="description"
-                            placeholder="О себе"
-                            required
-                            minlength="2"
-                            maxlength="200"
-                        />
-                        <span className="popup__reminder popup__reminder_type_description"></span>
-                        <button className="popup__save-button" type="submit">
-                            Сохранить
-                        </button>
-                    </form>
-                    <button
-                        className="popup__close-button popup__close-button_type_profile"
-                        type="button"
-                    ></button>
-                </div>
-            </div>
-            <div className="popup popup_type_add-card">
-                <div className="popup__container popup__container_type_add-card">
-                    <form className="popup__form" name="popup-add-form">
-                        <h2 className="popup__heading">Новое место</h2>
-                        <input
-                            type="text"
-                            className="popup__data popup__data_type_place"
-                            name="place"
-                            placeholder="Название"
-                            required
-                            minlength="2"
-                            maxlength="30"
-                        />
-                        <span className="popup__reminder popup__reminder_type_place"></span>
-                        <input
-                            type="url"
-                            className="popup__data popup__data_type_link"
-                            name="link"
-                            placeholder="Ссылка на картинку"
-                            required
-                        />
-                        <span className="popup__reminder popup__reminder_type_link"></span>
-                        <button
-                            className="popup__save-button popup__save-button_disabled"
-                            type="submit"
-                        >
-                            Создать
-                        </button>
-                    </form>
-                    <button
-                        className="popup__close-button popup__close-button_type_add-card"
-                        type="button"
-                    ></button>
-                </div>
-            </div>
+            <Main
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+            />
             <ImagePopup className="popup popup_type_image" />
-            <div className="popup popup_type_confirm">
-                <div className="popup__container popup__container_type_confirm">
-                    <form className="popup__form" name="popup-confirm-form">
-                        <h2 className="popup__request">Вы уверены?</h2>
-                        <button className="popup__save-button" type="button">
-                            Да
-                        </button>
-                    </form>
-                    <button
-                        className="popup__close-button popup__close-button_type_confirm"
-                        type="button"
-                    ></button>
-                </div>
-            </div>
-            <div className="popup popup_type_avatar">
-                <div className="popup__container popup__container_type_avatar">
-                    <form className="popup__form" name="popup-avatar-form">
-                        <h2 className="popup__heading">Обновить аватар</h2>
-                        <input
-                            type="url"
-                            className="popup__data popup__data_type_link"
-                            name="avatar"
-                            placeholder="Ссылка на картинку"
-                            required
-                        />
-                        <span className="popup__reminder popup__reminder_type_avatar"></span>
-                        <button
-                            className="popup__save-button popup__save-button_disabled"
-                            type="submit"
-                        >
-                            Сохранить
-                        </button>
-                    </form>
-                    <button
-                        className="popup__close-button popup__close-button_type_avatar"
-                        type="button"
-                    ></button>
-                </div>
-            </div>
-            {/* <PopupWithForm name='profile' />
-            <PopupWithForm name='add-card' />
-            <PopupWithForm name='confirm' />
-            <PopupWithForm name='avatar' /> */}
+            <PopupWithForm
+                name="profile"
+                title="Редактировать профиль"
+                text="Сохранить"
+                isOpen={isEditProfilePopupOpen}
+            >
+                <input
+                    type="text"
+                    className="popup__data popup__data_type_name"
+                    name="name"
+                    placeholder="Имя"
+                    required
+                    minLength="2"
+                    maxLength="40"
+                />
+                <span className="popup__reminder popup__reminder_type_name"></span>
+                <input
+                    type="text"
+                    className="popup__data popup__data_type_description"
+                    name="description"
+                    placeholder="О себе"
+                    required
+                    minLength="2"
+                    maxLength="200"
+                />
+                <span className="popup__reminder popup__reminder_type_description"></span>
+            </PopupWithForm>
+            <PopupWithForm
+                name="add-card"
+                title="Новое место"
+                text="Создать"
+                isOpen={isAddPlacePopupOpen}
+            >
+                <input
+                    type="text"
+                    className="popup__data popup__data_type_place"
+                    name="place"
+                    placeholder="Название"
+                    required
+                    minLength="2"
+                    maxLength="30"
+                />
+                <span className="popup__reminder popup__reminder_type_place"></span>
+                <input
+                    type="url"
+                    className="popup__data popup__data_type_link"
+                    name="link"
+                    placeholder="Ссылка на картинку"
+                    required
+                />
+                <span className="popup__reminder popup__reminder_type_link"></span>
+            </PopupWithForm>
+            <PopupWithForm name="confirm" title="Вы уверены?" text="Да"></PopupWithForm>
+            <PopupWithForm
+                name="avatar"
+                title="Обновить аватар"
+                text="Сохранить"
+                isOpen={isEditAvatarPopupOpen}
+            >
+                <input
+                    type="url"
+                    className="popup__data popup__data_type_link"
+                    name="avatar"
+                    placeholder="Ссылка на картинку"
+                    required
+                />
+                <span className="popup__reminder popup__reminder_type_avatar"></span>
+            </PopupWithForm>
             <Footer />
         </div>
     );
