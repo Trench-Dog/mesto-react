@@ -1,5 +1,3 @@
-import '../index.css';
-
 function PopupWithForm(props) {
     return (
         <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>
@@ -7,7 +5,7 @@ function PopupWithForm(props) {
                 <form className="popup__form" name={`popup-${props.name}-form`}>
                     <h2 className="popup__request">{props.title}</h2>
                     {props.children}
-                    <button className="popup__save-button" type="button">
+                    <button className="popup__save-button" type="submit">
                         {props.text}
                     </button>
                 </form>

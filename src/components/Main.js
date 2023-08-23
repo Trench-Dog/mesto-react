@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import '../index.css';
 import avatar_editor from '../images/profile-edit-image.svg';
 import { api } from '../utils/Api';
 import Card from './Card';

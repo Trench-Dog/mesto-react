@@ -4,7 +4,7 @@ export default function Card(props) {
     }
 
     return (
-        <li className="place" key={props.card._id}>
+        <li className="place">
             <img
                 className="place__image"
                 style={{ backgroundImage: `url(${props.card.link})` }}

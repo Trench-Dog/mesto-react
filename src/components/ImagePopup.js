@@ -1,5 +1,3 @@
-import '../index.css';
-
 function ImagePopup(props) {
     return (
         <div className={`popup popup_type_image ${props.isOpen ? 'popup_opened' : ''}`}>
@@ -9,7 +7,7 @@ function ImagePopup(props) {
                     type="button"
                     onClick={props.onClose}
                 ></button>
-                <img className="popup__image" src={props.link} />
+                <img className="popup__image" src={props.link} alt={props.name} />
                 <h2 className="popup__place-name">{props.name}</h2>
             </div>
         </div>
