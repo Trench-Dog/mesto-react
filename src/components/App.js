@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import '../index.css';
 import Header from './Header';
 import Main from './Main';
@@ -6,33 +6,46 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
-let isEditProfilePopupOpen = false;
-let isAddPlacePopupOpen = false;
-let isEditAvatarPopupOpen = false;
-console.log(isEditAvatarPopupOpen);
-console.log(isEditProfilePopupOpen);
-console.log(isAddPlacePopupOpen);
-
-function handleEditProfileClick() {
-    isEditProfilePopupOpen = true;
-    console.log(isEditProfilePopupOpen);
-    return isEditProfilePopupOpen;
-    // document.querySelector('.popup_type_profile').classList.add('popup_opened');
-}
-
-function handleEditAvatarClick() {
-    isEditAvatarPopupOpen = true;
-    console.log(isEditAvatarPopupOpen);
-    // document.querySelector('.popup_type_avatar').classList.add('popup_opened');
-}
-
-function handleAddPlaceClick() {
-    isAddPlacePopupOpen = true;
-    console.log(isAddPlacePopupOpen);
-    // document.querySelector('.popup_type_add-card').classList.add('popup_opened');
-}
-
 function App() {
+    const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+    const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+    const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+    const [selectedCard, setSelectedCard] = useState({
+        isOpen: false,
+        id: ''
+    });
+
+    function handleEditProfileClick() {
+        setEditProfilePopupOpen(true);
+    }
+
+    function handleEditAvatarClick() {
+        setEditAvatarPopupOpen(true);
+    }
+
+    function handleAddPlaceClick() {
+        setAddPlacePopupOpen(true);
+    }
+
+    function closeAllPopups() {
+        setEditAvatarPopupOpen(false);
+        setEditProfilePopupOpen(false);
+        setAddPlacePopupOpen(false);
+        setSelectedCard({
+            isOpen: false,
+            link: '',
+            name: ''
+        });
+    }
+
+    function handleCardClick(card) {
+        setSelectedCard({
+            isOpen: true,
+            link: card.link,
+            name: card.name
+        });
+    }
+
     return (
         <div className="page">
             <Header />
@@ -40,13 +53,22 @@ function App() {
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
                 onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
             />
-            <ImagePopup className="popup popup_type_image" />
+            <ImagePopup
+                className="popup popup_type_image"
+                card={selectedCard}
+                onClose={closeAllPopups}
+                isOpen={selectedCard.isOpen}
+                link={selectedCard.link}
+                name={selectedCard.name}
+            />
             <PopupWithForm
                 name="profile"
                 title="Редактировать профиль"
                 text="Сохранить"
                 isOpen={isEditProfilePopupOpen}
+                onClose={closeAllPopups}
             >
                 <input
                     type="text"
@@ -74,6 +96,7 @@ function App() {
                 title="Новое место"
                 text="Создать"
                 isOpen={isAddPlacePopupOpen}
+                onClose={closeAllPopups}
             >
                 <input
                     type="text"
@@ -94,12 +117,18 @@ function App() {
                 />
                 <span className="popup__reminder popup__reminder_type_link"></span>
             </PopupWithForm>
-            <PopupWithForm name="confirm" title="Вы уверены?" text="Да"></PopupWithForm>
+            <PopupWithForm
+                name="confirm"
+                title="Вы уверены?"
+                text="Да"
+                onClose={closeAllPopups}
+            ></PopupWithForm>
             <PopupWithForm
                 name="avatar"
                 title="Обновить аватар"
                 text="Сохранить"
                 isOpen={isEditAvatarPopupOpen}
+                onClose={closeAllPopups}
             >
                 <input
                     type="url"

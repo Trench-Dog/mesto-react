@@ -1,4 +1,3 @@
-import React from 'react';
 import '../index.css';
 
 function PopupWithForm(props) {
@@ -15,6 +14,7 @@ function PopupWithForm(props) {
                 <button
                     className={`popup__close-button popup__close-button_type_${props.name}`}
                     type="button"
+                    onClick={props.onClose}
                 ></button>
             </div>
         </div>
