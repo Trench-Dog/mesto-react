@@ -12,7 +12,6 @@ function Main(props) {
     useEffect(() => {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
             .then(([userData, initialCards]) => {
-                console.log(initialCards);
                 setUserName(userData.name);
                 setUserDescription(userData.about);
                 setUserAvatar(userData.avatar);
