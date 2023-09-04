@@ -5,7 +5,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { api } from '../utils/Api';
-import { currentUserContext } from '../contexts/CurrentUserContext';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -17,9 +17,15 @@ function App() {
         name: ''
     });
     const [currentUser, setCurrentUser] = useState({});
+    const [cards, setCards] = useState([]);
 
     useEffect(() => {
-        setCurrentUser(api.getUserInfo());
+        Promise.all([api.getUserInfo(), api.getInitialCards()])
+            .then(([userData, initialCards]) => {
+                setCurrentUser(userData);
+                setCards(initialCards);
+            })
+            .catch(err => alert(err));
     }, []);
 
     function handleEditProfileClick() {
@@ -54,7 +60,7 @@ function App() {
     }
 
     return (
-        <currentUserContext.Provider>
+        <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
                 <Header />
                 <Main
@@ -62,6 +68,7 @@ function App() {
                     onAddPlace={handleAddPlaceClick}
                     onEditAvatar={handleEditAvatarClick}
                     onCardClick={handleCardClick}
+                    cards={cards}
                 />
                 <ImagePopup
                     className="popup popup_type_image"
@@ -149,7 +156,7 @@ function App() {
                 </PopupWithForm>
                 <Footer />
             </div>
-        </currentUserContext.Provider>
+        </CurrentUserContext.Provider>
     );
 }
 export default App;
