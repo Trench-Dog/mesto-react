@@ -43,17 +43,9 @@ class Api {
             return this._getResponseData(res);
         });
     }
-    putLike(cardId) {
+    handleCardLike(cardId, isLiked) {
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-            method: 'PUT',
-            headers: this._headers
-        }).then(res => {
-            return this._getResponseData(res);
-        });
-    }
-    deleteLike(cardId) {
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-            method: 'DELETE',
+            method: isLiked ? 'DELETE' : 'PUT',
             headers: this._headers
         }).then(res => {
             return this._getResponseData(res);

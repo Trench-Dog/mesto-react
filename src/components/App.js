@@ -59,6 +59,20 @@ function App() {
         });
     }
 
+    function handleCardLike(card, isLiked) {
+        api.handleCardLike(card._id, isLiked)
+            .then(newCard => {
+                setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
+            })
+            .catch(err => alert(err));
+    }
+
+    function handleCardDelete(card) {
+        api.deleteCard(card._id).then(res => {
+            console.log(res);
+        });
+    }
+
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
@@ -68,6 +82,8 @@ function App() {
                     onAddPlace={handleAddPlaceClick}
                     onEditAvatar={handleEditAvatarClick}
                     onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
                     cards={cards}
                 />
                 <ImagePopup
