@@ -8,6 +8,7 @@ import { api } from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -77,11 +78,22 @@ function App() {
             .catch(err => alert(err));
     }
     function handleUpdateUser(name, description) {
-        api.editUserInfo(name, description).then(newData => {
-            setCurrentUser(newData);
-            closeAllPopups();
-        });
+        api.editUserInfo(name, description)
+            .then(newData => {
+                setCurrentUser(newData);
+                closeAllPopups();
+            })
+            .catch(err => alert(err));
     }
+    function handleUpdateAvatar(link) {
+        api.changeAvatar(link)
+            .then(newData => {
+                setCurrentUser(newData);
+                closeAllPopups();
+            })
+            .catch(err => alert(err));
+    }
+    function handleAddPlace() {}
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -109,39 +121,22 @@ function App() {
                     onClose={closeAllPopups}
                     onUpdateUser={handleUpdateUser}
                 />
-                <PopupWithForm
-                    name="add-card"
-                    title="Новое место"
-                    text="Создать"
+                <AddPlacePopup
                     isOpen={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
-                >
-                    <input
-                        type="text"
-                        className="popup__data popup__data_type_place"
-                        name="place"
-                        placeholder="Название"
-                        required
-                        minLength="2"
-                        maxLength="30"
-                    />
-                    <span className="popup__reminder popup__reminder_type_place"></span>
-                    <input
-                        type="url"
-                        className="popup__data popup__data_type_link"
-                        name="link"
-                        placeholder="Ссылка на картинку"
-                        required
-                    />
-                    <span className="popup__reminder popup__reminder_type_link"></span>
-                </PopupWithForm>
+                    onAddPlace={handleAddPlace}
+                />
                 <PopupWithForm
                     name="confirm"
                     title="Вы уверены?"
                     text="Да"
                     onClose={closeAllPopups}
                 ></PopupWithForm>
-                <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+                <EditAvatarPopup
+                    isOpen={isEditAvatarPopupOpen}
+                    onClose={closeAllPopups}
+                    onUpdateAvatar={handleUpdateAvatar}
+                />
                 <Footer />
             </div>
         </CurrentUserContext.Provider>
