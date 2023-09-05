@@ -6,6 +6,8 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { api } from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -68,8 +70,16 @@ function App() {
     }
 
     function handleCardDelete(card) {
-        api.deleteCard(card._id).then(res => {
-            console.log(res);
+        api.deleteCard(card._id)
+            .then(() => {
+                setCards(state => state.filter(c => c.id !== card._id));
+            })
+            .catch(err => alert(err));
+    }
+    function handleUpdateUser(name, description) {
+        api.editUserInfo(name, description).then(newData => {
+            setCurrentUser(newData);
+            closeAllPopups();
         });
     }
 
@@ -94,34 +104,11 @@ function App() {
                     link={selectedCard.link}
                     name={selectedCard.name}
                 />
-                <PopupWithForm
-                    name="profile"
-                    title="Редактировать профиль"
-                    text="Сохранить"
+                <EditProfilePopup
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
-                >
-                    <input
-                        type="text"
-                        className="popup__data popup__data_type_name"
-                        name="name"
-                        placeholder="Имя"
-                        required
-                        minLength="2"
-                        maxLength="40"
-                    />
-                    <span className="popup__reminder popup__reminder_type_name"></span>
-                    <input
-                        type="text"
-                        className="popup__data popup__data_type_description"
-                        name="description"
-                        placeholder="О себе"
-                        required
-                        minLength="2"
-                        maxLength="200"
-                    />
-                    <span className="popup__reminder popup__reminder_type_description"></span>
-                </PopupWithForm>
+                    onUpdateUser={handleUpdateUser}
+                />
                 <PopupWithForm
                     name="add-card"
                     title="Новое место"
@@ -154,22 +141,7 @@ function App() {
                     text="Да"
                     onClose={closeAllPopups}
                 ></PopupWithForm>
-                <PopupWithForm
-                    name="avatar"
-                    title="Обновить аватар"
-                    text="Сохранить"
-                    isOpen={isEditAvatarPopupOpen}
-                    onClose={closeAllPopups}
-                >
-                    <input
-                        type="url"
-                        className="popup__data popup__data_type_link"
-                        name="avatar"
-                        placeholder="Ссылка на картинку"
-                        required
-                    />
-                    <span className="popup__reminder popup__reminder_type_avatar"></span>
-                </PopupWithForm>
+                <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
                 <Footer />
             </div>
         </CurrentUserContext.Provider>

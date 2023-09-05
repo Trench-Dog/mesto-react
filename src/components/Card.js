@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     const currentUser = useContext(CurrentUserContext);
     const isOwn = card.owner._id === currentUser._id;
     const isLiked = card.likes.some(like => like._id === currentUser._id);
@@ -33,7 +33,10 @@ export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
                     <h3 className="place__like-counter">{card.likes.length}</h3>
                 </div>
             </div>
-            {isOwn && <button className="place__delete-button" type="button" />}
+            {isOwn && (
+                <button className="place__delete-button" type="button" onClick={handleDelete} />
+            )}
         </li>
     );
 }
+export default Card;
