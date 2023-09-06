@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { api } from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -15,6 +14,7 @@ function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+    const [isConfirmationPopupOpen, setConfirmationPopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState({
         isOpen: false,
         link: '',
@@ -22,6 +22,7 @@ function App() {
     });
     const [currentUser, setCurrentUser] = useState({});
     const [cards, setCards] = useState([]);
+    const [deletedCardId, setDeletedCardId] = useState('');
 
     useEffect(() => {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -31,6 +32,31 @@ function App() {
             })
             .catch(err => alert(err));
     }, []);
+
+    useEffect(() => {
+        function onPushEsc(e) {
+            if (e.key === 'Escape') {
+                closeAllPopups();
+            }
+        }
+        if (
+            isAddPlacePopupOpen ||
+            isConfirmationPopupOpen ||
+            isEditAvatarPopupOpen ||
+            isEditProfilePopupOpen ||
+            selectedCard
+        ) {
+            document.addEventListener('keydown', onPushEsc);
+        } else {
+            document.removeEventListener('keydown', onPushEsc);
+        }
+    }, [
+        isAddPlacePopupOpen,
+        isConfirmationPopupOpen,
+        isEditAvatarPopupOpen,
+        isEditProfilePopupOpen,
+        selectedCard
+    ]);
 
     function handleEditProfileClick() {
         setEditProfilePopupOpen(true);
@@ -44,6 +70,11 @@ function App() {
         setAddPlacePopupOpen(true);
     }
 
+    function handleDeleteButtonClick(id) {
+        setDeletedCardId(id);
+        setConfirmationPopupOpen(true);
+    }
+
     function closeAllPopups() {
         setEditAvatarPopupOpen(false);
         setEditProfilePopupOpen(false);
@@ -53,6 +84,8 @@ function App() {
             link: '',
             name: ''
         });
+        setConfirmationPopupOpen(false);
+        setDeletedCardId('');
     }
 
     function handleCardClick(card) {
@@ -71,10 +104,11 @@ function App() {
             .catch(err => alert(err));
     }
 
-    function handleCardDelete(card) {
-        api.deleteCard(card._id)
+    function handleCardDelete(id) {
+        api.deleteCard(id)
             .then(() => {
-                setCards(state => state.filter(c => c.id !== card._id));
+                setCards(state => state.filter(c => c._id !== id));
+                closeAllPopups();
             })
             .catch(err => alert(err));
     }
@@ -113,7 +147,7 @@ function App() {
                     onEditAvatar={handleEditAvatarClick}
                     onCardClick={handleCardClick}
                     onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
+                    onCardDelete={handleDeleteButtonClick}
                     cards={cards}
                 />
                 <ImagePopup
@@ -134,7 +168,12 @@ function App() {
                     onClose={closeAllPopups}
                     onAddPlace={handleAddPlace}
                 />
-                <ConfirmationPopup onClose={closeAllPopups} />
+                <ConfirmationPopup
+                    onClose={closeAllPopups}
+                    isOpen={isConfirmationPopupOpen}
+                    cardId={deletedCardId}
+                    onConfirmDelete={handleCardDelete}
+                />
                 <EditAvatarPopup
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
