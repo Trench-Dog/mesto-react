@@ -1,9 +1,22 @@
+import { useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 function AddPlacePopup(props) {
+    const [name, setName] = useState('');
+    const [link, setLink] = useState('');
+
+    function handleNameChange(e) {
+        setName(e.target.value);
+    }
+    function handleLinkChange(e) {
+        setLink(e.target.value);
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
-        props.onAddPlace();
+        props.onAddPlace(name, link);
+        e.target.reset();
     }
+
     return (
         <PopupWithForm
             name="add-card"
@@ -21,6 +34,7 @@ function AddPlacePopup(props) {
                 required
                 minLength="2"
                 maxLength="30"
+                onChange={handleNameChange}
             />
             <span className="popup__reminder popup__reminder_type_place"></span>
             <input
@@ -29,6 +43,7 @@ function AddPlacePopup(props) {
                 name="link"
                 placeholder="Ссылка на картинку"
                 required
+                onChange={handleLinkChange}
             />
             <span className="popup__reminder popup__reminder_type_link"></span>
         </PopupWithForm>

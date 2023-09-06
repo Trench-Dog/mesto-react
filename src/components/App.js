@@ -9,6 +9,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import ConfirmationPopup from './ConfirmationPopup';
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -93,7 +94,14 @@ function App() {
             })
             .catch(err => alert(err));
     }
-    function handleAddPlace() {}
+    function handleAddPlace(name, link) {
+        api.sendNewCard(name, link)
+            .then(newCard => {
+                setCards([newCard, ...cards]);
+                closeAllPopups();
+            })
+            .catch(err => alert(err));
+    }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -126,12 +134,7 @@ function App() {
                     onClose={closeAllPopups}
                     onAddPlace={handleAddPlace}
                 />
-                <PopupWithForm
-                    name="confirm"
-                    title="Вы уверены?"
-                    text="Да"
-                    onClose={closeAllPopups}
-                ></PopupWithForm>
+                <ConfirmationPopup onClose={closeAllPopups} />
                 <EditAvatarPopup
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
