@@ -24,7 +24,7 @@ export default function AddPlacePopup(props) {
         <PopupWithForm
             name="add-card"
             title="Новое место"
-            text="Создать"
+            text={props.isLoading ? 'Сохранение...' : 'Создать'}
             isOpen={props.isOpen}
             onClose={props.onClose}
             onSubmit={handleSubmit}

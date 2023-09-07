@@ -19,8 +19,8 @@ export default function Card(props) {
         <li className="place">
             <img
                 className="place__image"
+                src={props.card.link}
                 alt={props.card.name}
-                style={{ backgroundImage: `url(${props.card.link})` }}
                 onClick={handleClick}
             />
             <div className="place__description">

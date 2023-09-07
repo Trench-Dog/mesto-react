@@ -5,15 +5,14 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 export default function Main(props) {
     const currentUser = useContext(CurrentUserContext);
-
     return (
         <main className="content">
             <section className="profile">
                 <div className="profile__avatar-container" onClick={props.onEditAvatar}>
                     <img
                         className="profile__avatar"
+                        src={currentUser.avatar}
                         alt="Аватар пользователя"
-                        style={{ backgroundImage: `url(${currentUser.avatar})` }}
                     />
                     <img className="profile__avatar-editor" src={avatar_editor} />
                 </div>

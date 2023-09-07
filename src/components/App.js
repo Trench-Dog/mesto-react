@@ -23,6 +23,7 @@ export default function App() {
     const [currentUser, setCurrentUser] = useState({});
     const [cards, setCards] = useState([]);
     const [deletedCardId, setDeletedCardId] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -105,36 +106,52 @@ export default function App() {
     }
 
     function handleCardDelete(id) {
+        setIsLoading(true);
         api.deleteCard(id)
             .then(() => {
                 setCards(state => state.filter(c => c._id !== id));
                 closeAllPopups();
             })
-            .catch(err => alert(err));
+            .catch(err => alert(err))
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
     function handleUpdateUser(name, description) {
+        setIsLoading(true);
         api.editUserInfo(name, description)
             .then(newData => {
                 setCurrentUser(newData);
                 closeAllPopups();
             })
-            .catch(err => alert(err));
+            .catch(err => alert(err))
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
     function handleUpdateAvatar(link) {
+        setIsLoading(true);
         api.changeAvatar(link)
             .then(newData => {
                 setCurrentUser(newData);
                 closeAllPopups();
             })
-            .catch(err => alert(err));
+            .catch(err => alert(err))
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
     function handleAddPlace(name, link) {
+        setIsLoading(true);
         api.sendNewCard(name, link)
             .then(newCard => {
                 setCards([newCard, ...cards]);
                 closeAllPopups();
             })
-            .catch(err => alert(err));
+            .catch(err => alert(err))
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
 
     return (
@@ -162,22 +179,26 @@ export default function App() {
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
                     onUpdateUser={handleUpdateUser}
+                    isLoading={isLoading}
                 />
                 <AddPlacePopup
                     isOpen={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
                     onAddPlace={handleAddPlace}
+                    isLoading={isLoading}
                 />
                 <ConfirmationPopup
                     onClose={closeAllPopups}
                     isOpen={isConfirmationPopupOpen}
                     cardId={deletedCardId}
                     onConfirmDelete={handleCardDelete}
+                    isLoading={isLoading}
                 />
                 <EditAvatarPopup
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
                     onUpdateAvatar={handleUpdateAvatar}
+                    isLoading={isLoading}
                 />
                 <Footer />
             </div>

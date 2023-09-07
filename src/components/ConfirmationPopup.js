@@ -8,7 +8,7 @@ export default function ConfirmationPopup(props) {
         <PopupWithForm
             name="confirm"
             title="Вы уверены?"
-            text="Да"
+            text={props.isLoading ? 'Удаление...' : 'Да'}
             onClose={props.onClose}
             isOpen={props.isOpen}
             onSubmit={handleSubmit}
