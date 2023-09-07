@@ -35,8 +35,8 @@ export default function App() {
     }, []);
 
     useEffect(() => {
-        function onPushEsc(e) {
-            if (e.key === 'Escape') {
+        function onPushEsc(evt) {
+            if (evt.key === 'Escape') {
                 closeAllPopups();
             }
         }

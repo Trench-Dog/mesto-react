@@ -8,15 +8,15 @@ export default function AddPlacePopup(props) {
         setLink('');
     }, [props.isOpen]);
 
-    function handleNameChange(e) {
-        setName(e.target.value);
+    function handleNameChange(evt) {
+        setName(evt.target.value);
     }
-    function handleLinkChange(e) {
-        setLink(e.target.value);
+    function handleLinkChange(evt) {
+        setLink(evt.target.value);
     }
 
-    function handleSubmit(e) {
-        e.preventDefault();
+    function handleSubmit(evt) {
+        evt.preventDefault();
         props.onAddPlace(name, link);
     }
 
