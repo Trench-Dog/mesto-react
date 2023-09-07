@@ -12,6 +12,7 @@ export default function Main(props) {
                 <div className="profile__avatar-container" onClick={props.onEditAvatar}>
                     <img
                         className="profile__avatar"
+                        alt="Аватар пользователя"
                         style={{ backgroundImage: `url(${currentUser.avatar})` }}
                     />
                     <img className="profile__avatar-editor" src={avatar_editor} />
