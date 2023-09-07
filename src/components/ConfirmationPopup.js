@@ -1,5 +1,5 @@
 import PopupWithForm from './PopupWithForm';
-function ConfirmationPopup(props) {
+export default function ConfirmationPopup(props) {
     function handleSubmit(e) {
         e.preventDefault();
         props.onConfirmDelete(props.cardId);
@@ -15,4 +15,3 @@ function ConfirmationPopup(props) {
         ></PopupWithForm>
     );
 }
-export default ConfirmationPopup;

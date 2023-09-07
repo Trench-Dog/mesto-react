@@ -1,9 +1,8 @@
 import logo from '../images/header-logo.svg';
-function Header() {
+export default function Header() {
     return (
         <header className="header">
             <img className="header__logo" src={logo} alt="Логотип с надписью Место Россия" />
         </header>
     );
 }
-export default Header;

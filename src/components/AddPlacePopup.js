@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PopupWithForm from './PopupWithForm';
-function AddPlacePopup(props) {
+export default function AddPlacePopup(props) {
     const [name, setName] = useState('');
     const [link, setLink] = useState('');
 
@@ -49,4 +49,3 @@ function AddPlacePopup(props) {
         </PopupWithForm>
     );
 }
-export default AddPlacePopup;
