@@ -158,6 +158,10 @@ export default function App() {
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
                 <Header />
+                <Routes>
+                    <Route path="/sign-up" />
+                    <Route path="/sign-in" />
+                </Routes>
                 <Main
                     onEditProfile={handleEditProfileClick}
                     onAddPlace={handleAddPlaceClick}
